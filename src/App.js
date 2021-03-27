@@ -4,11 +4,13 @@ import { useEffect, useState } from 'react';
 function App() {
   const [seconds, setSeconds] = useState(0);
   const [minutes, setMinutes] = useState(25);
-  // const [secondsDisplay, setSecondsDisplay] = useState("15")
-  // const [minutesDisplay, setMinutesDisplay] = useState("15")
 
   useEffect(() => {
     return () => {
+    if (seconds === 0) {
+      setSeconds(59);
+      setMinutes(minutes - 1)
+    }
       console.log(seconds)
       console.log(minutes)
     }
@@ -19,25 +21,7 @@ function App() {
     setInterval(() => {
       setSeconds(seconds => seconds - 1);
     }, 1000);
-    // Set Minutes
-    setInterval(() => {
-      setMinutes(minutes => minutes - 1);
-    }, 60000);
   }
-  // setSecondsDisplay(seconds.toString());
-  // setMinutesDisplay(minutes.toString());
-  if (seconds === 0) {
-    setSeconds(60);
-  }
-
-
-  // if (seconds > 9) {
-  //   setSecondsDisplay("" + seconds);
-  // } else {
-  //   setSecondsDisplay("0" + seconds)
-  // }
-
-
 
   return (
     <div className="container">
