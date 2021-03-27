@@ -41,3 +41,8 @@
 .timer-controls > * {
   border: 1px solid magenta;
 }
+
+#time-left {
+  display: flex;
+  justify-content: center;
+}

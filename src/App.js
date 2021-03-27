@@ -1,6 +1,44 @@
 import './App.css';
+import { useEffect, useState } from 'react';
 
 function App() {
+  const [seconds, setSeconds] = useState(0);
+  const [minutes, setMinutes] = useState(25);
+  // const [secondsDisplay, setSecondsDisplay] = useState("15")
+  // const [minutesDisplay, setMinutesDisplay] = useState("15")
+
+  useEffect(() => {
+    return () => {
+      console.log(seconds)
+      console.log(minutes)
+    }
+  }, [seconds, minutes])
+
+  const timer = () => {
+    // Set Seconds
+    setInterval(() => {
+      setSeconds(seconds => seconds - 1);
+    }, 1000);
+    // Set Minutes
+    setInterval(() => {
+      setMinutes(minutes => minutes - 1);
+    }, 60000);
+  }
+  // setSecondsDisplay(seconds.toString());
+  // setMinutesDisplay(minutes.toString());
+  if (seconds === 0) {
+    setSeconds(60);
+  }
+
+
+  // if (seconds > 9) {
+  //   setSecondsDisplay("" + seconds);
+  // } else {
+  //   setSecondsDisplay("0" + seconds)
+  // }
+
+
+
   return (
     <div className="container">
       <div className="pomodoro">
@@ -25,9 +63,13 @@ function App() {
         {/* Timer display */}
         <div className="timer">
           <div id="timer-label">Session</div>
-          <div id="time-left">25:00</div>
+          <div id="time-left">
+            <div id="minutes">{ minutes }</div>
+            <div id="divider">:</div>
+            <div id="seconds">{ seconds }</div>
+          </div>
           <div className="timer-controls">
-            <div id="start_stop">Stop</div>
+            <div id="start_stop" onClick={ timer }>Stop</div>
             <div id="reset">Reset</div>
           </div>
         </div>
