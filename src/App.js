@@ -8,15 +8,25 @@ function App() {
 
   useEffect(() => {
     if (isRunning === true) {
+      // Set seconds to 59 if they are equal to 0
+      if (seconds === 0) {
+        const timer = setTimeout(() => {
+          console.log('This will run after 1 second!')
+          setSeconds(59);
+          setMinutes(minutes - 1);
+        }, 1000);
+        return () => clearTimeout(timer);
+      }
       const interval = setInterval(() => {
         console.log('This will run every second!');
+        setSeconds(seconds => seconds - 1);
       }, 1000);
       return () => clearInterval(interval);
     }
     else {
       console.log('This will NOT run every second!');
     }
-  }, [isRunning]);
+  }, [isRunning, minutes, seconds]);
 
   const startStopTimer = () => {
     // Every 1000 milliseconds, set seconds to -1
