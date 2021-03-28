@@ -7,6 +7,11 @@ function App() {
   const [isRunning, setIsRunning] = useState(false);
 
   useEffect(() => {
+    // Stop countdown if it reaches 00:00
+    if (minutes === 0 && seconds === 0) {
+      console.log('Stopping countdown!');
+      setIsRunning(false);
+    }
     // Check if the app is set to run
     if (isRunning === true) {
       // Set seconds to 59 if they are equal to 0 (after 1 second)
@@ -15,7 +20,7 @@ function App() {
           console.log('This will run after 1 second!')
           setSeconds(59);
           setMinutes(minutes - 1);
-        }, 1000);
+        }, 10);
         // Clear setTimeout
         return () => clearTimeout(timer);
       }
@@ -23,7 +28,7 @@ function App() {
       const interval = setInterval(() => {
         console.log('This will run every second!');
         setSeconds(seconds => seconds - 1);
-      }, 1000);
+      }, 10);
       // Clear setInterval
       return () => clearInterval(interval);
     }
@@ -50,6 +55,9 @@ function App() {
     console.log("Restart countdown");
     setSeconds(0);
     setMinutes(25);
+    // Check what another pomodoros do when the reset button is clicked
+    // Do they restart the countdown on click (true), or the countdown should start after clicking Start again (false or remove setIsRunning)?
+    setIsRunning(true);
   }
 
   return (
