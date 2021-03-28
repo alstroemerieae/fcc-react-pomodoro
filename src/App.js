@@ -4,20 +4,26 @@ import { useEffect, useState } from 'react';
 function App() {
   const [seconds, setSeconds] = useState(0);
   const [minutes, setMinutes] = useState(25);
+  const [isRunning, setIsRunning] = useState(false)
 
   useEffect(() => {
     return () => {
+    // Set seconds to 59 if they reach 0
+    // Also substract 1 to minutes
     if (seconds === 0) {
       setSeconds(59);
       setMinutes(minutes - 1)
+      setIsRunning(true);
     }
+      console.log("________________________")
       console.log(seconds)
       console.log(minutes)
+      console.log(isRunning)
     }
-  }, [seconds, minutes])
+  }, [seconds, minutes, isRunning])
 
-  const timer = () => {
-    // Set Seconds
+  const startTimer = () => {
+    // Every 1000 milliseconds, set seconds to -1
     setInterval(() => {
       setSeconds(seconds => seconds - 1);
     }, 1000);
@@ -53,7 +59,7 @@ function App() {
             <div id="seconds">{ seconds }</div>
           </div>
           <div className="timer-controls">
-            <div id="start_stop" onClick={ timer }>Stop</div>
+            <div id="start_stop" onClick={ startTimer }>Start/Stop</div>
             <div id="reset">Reset</div>
           </div>
         </div>
