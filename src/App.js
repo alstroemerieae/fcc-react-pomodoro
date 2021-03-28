@@ -46,6 +46,12 @@ function App() {
     }
   }
 
+  const restartTimer = () => {
+    console.log("Restart countdown");
+    setSeconds(0);
+    setMinutes(25);
+  }
+
   return (
     <div className="container">
       <div className="pomodoro">
@@ -77,7 +83,7 @@ function App() {
           </div>
           <div className="timer-controls">
             <div id="start_stop" onClick={ startStopTimer }>Start/Stop</div>
-            <div id="reset">Reset</div>
+            <div id="reset" onClick={ restartTimer }>Reset</div>
           </div>
         </div>
       </div>
