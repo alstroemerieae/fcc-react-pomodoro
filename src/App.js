@@ -7,22 +7,27 @@ function App() {
   const [isRunning, setIsRunning] = useState(false);
 
   useEffect(() => {
+    // Check if the app is set to run
     if (isRunning === true) {
-      // Set seconds to 59 if they are equal to 0
+      // Set seconds to 59 if they are equal to 0 (after 1 second)
       if (seconds === 0) {
         const timer = setTimeout(() => {
           console.log('This will run after 1 second!')
           setSeconds(59);
           setMinutes(minutes - 1);
         }, 1000);
+        // Clear setTimeout
         return () => clearTimeout(timer);
       }
+      // If app is set to run, execute the setInterval method
       const interval = setInterval(() => {
         console.log('This will run every second!');
         setSeconds(seconds => seconds - 1);
       }, 1000);
+      // Clear setInterval
       return () => clearInterval(interval);
     }
+    // Check if the app is set to not run
     else {
       console.log('This will NOT run every second!');
     }
