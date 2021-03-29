@@ -78,7 +78,7 @@ function App() {
     if (minutes === 0 && seconds === 0) {
       console.log('Stopping countdown!');
       setSeconds(0);
-      setMinutes(0)
+      setMinutes(0);
       setIsRunning(false);
     }
 
@@ -132,6 +132,9 @@ function App() {
 
   const restartTimer = () => {
     console.log("Restart countdown");
+    // Might have to fix the next two lines later
+    setSeconds(0);
+    setMinutes(0);
     setSeconds(0);
     setMinutes(25);
     setBreakLength(5);
