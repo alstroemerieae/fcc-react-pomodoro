@@ -12,14 +12,14 @@ function App() {
   const [secondsDisplay, setSecondsDisplay] = useState("66")
   const [minutesDisplay, setMinutesDisplay] = useState("77")
 
-  console.log("$$$Current_Values$$$")
-  console.log(`Current seconds:${seconds}`);
-  console.log(`Current minutes:${minutes}`);
-  console.log(`Current running status:${isRunning}`);
-  console.log(`Current break length:${breakLength}`);
-  console.log(`Current session length:${sessionLength}`);
-  console.log(`Current seconds display:${secondsDisplay}`);
-  console.log(`Current minutes display:${minutesDisplay}`);
+  // console.log("$$$Current_Values$$$")
+  // console.log(`Current seconds:${seconds}`);
+  // console.log(`Current minutes:${minutes}`);
+  // console.log(`Current running status:${isRunning}`);
+  // console.log(`Current break length:${breakLength}`);
+  // console.log(`Current session length:${sessionLength}`);
+  // console.log(`Current seconds display:${secondsDisplay}`);
+  // console.log(`Current minutes display:${minutesDisplay}`);
 
   // Set display to mm:ss format
   // Set **:ss
@@ -152,7 +152,7 @@ function App() {
 
   const incrementBreak = () => {
     console.log("Increment break");
-    if (breakLength > 60) {
+    if (breakLength >= 60) {
       console.log("Break has reached the maximum length (60)")
         return;
     } else {
@@ -174,12 +174,13 @@ function App() {
 
   const incrementSession = () => {
     console.log("Increment session");
-    if (sessionLength > 60) {
+    if (sessionLength >= 60) {
       console.log("Session has reached the maximum length (60)")
       setSessionLength(60);
     } else {
       console.log(`Session length is ${sessionLength}, adding 1 to it...`)
       setSessionLength(sessionLength + 1);
+      setMinutes(sessionLength + 1)
     }
   }
 
