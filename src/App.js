@@ -12,9 +12,19 @@ function App() {
   const [secondsDisplay, setSecondsDisplay] = useState("66")
   const [minutesDisplay, setMinutesDisplay] = useState("77")
 
+  console.log("$$$Current_Values$$$")
+  console.log(`Current seconds:${seconds}`);
+  console.log(`Current minutes:${minutes}`);
+  console.log(`Current running status:${isRunning}`);
+  console.log(`Current break length:${breakLength}`);
+  console.log(`Current session length:${sessionLength}`);
+  console.log(`Current seconds display:${secondsDisplay}`);
+  console.log(`Current minutes display:${minutesDisplay}`);
 
+  // Set display to mm:ss format
+  // Set **:ss
   if(secondsDisplay === "0") {
-    console.log("AAA")
+    console.log("Adding a 0 to the seconds string")
     setSecondsDisplay("00");
   } else if (secondsDisplay === "1") {
     setSecondsDisplay("01");
@@ -35,6 +45,29 @@ function App() {
   } else if (secondsDisplay === "9") {
     setSecondsDisplay("09");
   }
+  // Set mm:**
+  if(minutesDisplay === "0") {
+    console.log("Adding a 0 to the minutes string")
+    setMinutesDisplay("00");
+  } else if (minutesDisplay === "1") {
+    setMinutesDisplay("01");
+  } else if (minutesDisplay === "2") {
+    setMinutesDisplay("02");
+  } else if (minutesDisplay === "3") {
+    setMinutesDisplay("03");
+  } else if (minutesDisplay === "4") {
+    setMinutesDisplay("04");
+  } else if (minutesDisplay === "5") {
+    setMinutesDisplay("05");
+  } else if (minutesDisplay === "6") {
+    setMinutesDisplay("06");
+  } else if (minutesDisplay === "7") {
+    setMinutesDisplay("07");
+  } else if (minutesDisplay === "8") {
+    setMinutesDisplay("08");
+  } else if (minutesDisplay === "9") {
+    setMinutesDisplay("09");
+  }
 
   useEffect(() => {
     // Set the minutes and seconds to string
@@ -44,6 +77,8 @@ function App() {
     // Stop countdown if it reaches 00:00
     if (minutes === 0 && seconds === 0) {
       console.log('Stopping countdown!');
+      setSeconds(0);
+      setMinutes(0)
       setIsRunning(false);
     }
 
@@ -60,14 +95,14 @@ function App() {
           console.log('This will run after 1 second!')
           setMinutes(minutes - 1);
           setSeconds(59);
-        }, 1000);
+        }, 10);
         return () => clearTimeout(timer);
       }
       // Execute the setInterval method to substract 1 to seconds every second
       const interval = setInterval(() => {
         console.log('This will run every second!');
         setSeconds(seconds => seconds - 1);
-      }, 1000);
+      }, 10);
       // Clear setInterval
       return () => clearInterval(interval);
     }
@@ -83,6 +118,7 @@ function App() {
       console.log("Start countdown");
       setIsRunning(true);
       if (seconds === 0) {
+        console.log("#################")
         setSeconds(59);
         setMinutes(minutes - 1);
       }
@@ -172,9 +208,7 @@ function App() {
         <div className="timer">
           <div id="timer-label">Session</div>
           <div id="time-left">
-            <div id="minutes">{ minutesDisplay }</div>
-            <div id="divider">:</div>
-            <div id="seconds">{ secondsDisplay }</div>
+            {`${minutesDisplay}:${secondsDisplay}`}
           </div>
           <div className="timer-controls">
             <div id="start_stop" onClick={ startStopTimer }>Start/Stop</div>
