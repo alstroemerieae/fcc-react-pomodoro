@@ -6,12 +6,15 @@ function App() {
   const [minutes, setMinutes] = useState(25);
   const [isRunning, setIsRunning] = useState(false);
 
+  const [breakLength, setBreakLength] = useState(5);
+  const [sessionLength, setSessionLength] = useState(25);
+
   useEffect(() => {
     // Stop countdown if it reaches 00:00
-    if (minutes === 0 && seconds === 0) {
-      console.log('Stopping countdown!');
-      setIsRunning(false);
-    }
+    // if (minutes === 0 && seconds === 0) {
+    //   console.log('Stopping countdown!');
+    //   setIsRunning(false);
+    // }
     // Check if the app is set to run
     if (isRunning === true) {
       // Set seconds to 59 if they are equal to 0 (after 1 second)
@@ -57,7 +60,48 @@ function App() {
     setMinutes(25);
     // Check what another pomodoros do when the reset button is clicked
     // Do they restart the countdown on click (true), or the countdown should start after clicking Start again (false or remove setIsRunning)?
+    // Checked: delete this..
     setIsRunning(true);
+  }
+
+  const decrementBreak = () => {
+    console.log("Decrement break");
+    setBreakLength(breakLength - 1);
+  }
+
+  const incrementBreak = () => {
+    console.log("Increment break");
+    setBreakLength(breakLength + 1);
+  }
+
+  const decrementSession = () => {
+    console.log("Decrement session");
+    setSessionLength(sessionLength - 1);
+  }
+
+  const incrementSession = () => {
+    console.log("Increment session");
+    setSessionLength(sessionLength + 1);
+  }
+
+  if (sessionLength <= 0) {
+    console.log("Session has reached the minimum length (0)")
+    setSessionLength(1);
+  }
+
+  if (breakLength <= 0) {
+    console.log("Break has reached the minimum length (0)")
+    setBreakLength(1);
+  }
+
+  if (sessionLength > 60) {
+    console.log("Session has reached the maximum length (60)")
+    setSessionLength(60);
+  }
+
+  if (breakLength > 60) {
+    console.log("Break has reached the maximum length (60)")
+    setBreakLength(60);
   }
 
   return (
@@ -67,18 +111,18 @@ function App() {
         <div className="length-control">
           <div id="break-label">Break Length</div>
           <div className="break-controls">
-            <div id="break-decrement">+</div>
-            <div id="break-length">5</div>
-            <div id="break-increment">-</div>
+            <div id="break-decrement" onClick={ decrementBreak }>-</div>
+            <div id="break-length">{ breakLength }</div>
+            <div id="break-increment" onClick={ incrementBreak }>+</div>
           </div>
         </div>
         {/* Session control */}
         <div className="length-control">
           <div id="session-label">Session Length</div>
           <div className="session-controls">
-            <div id="session-decrement">+</div>
-            <div id="session-length">25</div>
-            <div id="session-increment">-</div>
+            <div id="session-decrement" onClick={ decrementSession }>-</div>
+            <div id="session-length">{ sessionLength }</div>
+            <div id="session-increment" onClick={ incrementSession }>+</div>
           </div>
         </div>
         {/* Timer display */}
