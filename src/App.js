@@ -144,9 +144,9 @@ function App() {
 
   const decrementBreak = () => {
     console.log("Decrement break");
-    if (breakLength <= 0) {
-      console.log("Break has reached the minimum length (0)")
-      setBreakLength(1);
+    if (breakLength === 1) {
+      console.log("Break has reached the minimum length (1)")
+      return;
     } else {
       console.log(`Break length is ${breakLength}, substracting 1 from it...`)
       setBreakLength(breakLength - 1);
@@ -157,7 +157,7 @@ function App() {
     console.log("Increment break");
     if (breakLength >= 60) {
       console.log("Break has reached the maximum length (60)")
-        return;
+      return;
     } else {
       console.log(`Break length is ${breakLength}, adding 1 to it...`)
       setBreakLength(breakLength + 1);
@@ -166,9 +166,9 @@ function App() {
 
   const decrementSession = () => {
     console.log("Decrement session");
-    if (sessionLength <= 0) {
-      console.log("Session has reached the minimum length (0)")
-        return;
+    if (sessionLength === 1) {
+      console.log("Session has reached the minimum length (1)")
+      return;
     } else {
       console.log(`Session length is ${sessionLength}, substracting 1 from it...`)
       setSessionLength(sessionLength - 1);
@@ -179,7 +179,7 @@ function App() {
     console.log("Increment session");
     if (sessionLength >= 60) {
       console.log("Session has reached the maximum length (60)")
-      setSessionLength(60);
+      return;
     } else {
       console.log(`Session length is ${sessionLength}, adding 1 to it...`)
       setSessionLength(sessionLength + 1);
