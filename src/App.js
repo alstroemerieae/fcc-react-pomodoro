@@ -134,12 +134,20 @@ function App() {
     console.log("Restart countdown");
     // Might have to fix the next two lines later
     setSeconds(0);
-    setMinutes(0);
-    setSeconds(0);
     setMinutes(25);
+    setSecondsDisplay("00");
+    setMinutesDisplay("25");
     setBreakLength(5);
     setSessionLength(25);
     setIsRunning(false);
+    console.log("$$$Current_Values$$$")
+    console.log(`Current seconds:${seconds}`);
+    console.log(`Current minutes:${minutes}`);
+    console.log(`Current seconds display:${secondsDisplay}`);
+    console.log(`Current minutes display:${minutesDisplay}`);
+    console.log(`Current break length:${breakLength}`);
+    console.log(`Current session length:${sessionLength}`);
+    console.log(`Current running status:${isRunning}`);
   }
 
   const decrementBreak = () => {
@@ -172,6 +180,7 @@ function App() {
     } else {
       console.log(`Session length is ${sessionLength}, substracting 1 from it...`)
       setSessionLength(sessionLength - 1);
+      setMinutes(sessionLength - 1);
     }
   }
 
