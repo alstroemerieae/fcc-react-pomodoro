@@ -4,22 +4,24 @@ import { useEffect, useState } from 'react';
 function App() {
   const [seconds, setSeconds] = useState(0);
   const [minutes, setMinutes] = useState(25);
+
+  const [secondsDisplay, setSecondsDisplay] = useState("66");
+  const [minutesDisplay, setMinutesDisplay] = useState("77");
+
   const [isRunning, setIsRunning] = useState(false);
+  const [currentLabel, setCurrentLabel] = useState("Session");
 
   const [breakLength, setBreakLength] = useState(5);
   const [sessionLength, setSessionLength] = useState(25);
 
-  const [secondsDisplay, setSecondsDisplay] = useState("66")
-  const [minutesDisplay, setMinutesDisplay] = useState("77")
-
-  // console.log("$$$Current_Values$$$")
+  // console.log("_______________________________________")
   // console.log(`Current seconds:${seconds}`);
   // console.log(`Current minutes:${minutes}`);
-  // console.log(`Current running status:${isRunning}`);
-  // console.log(`Current break length:${breakLength}`);
-  // console.log(`Current session length:${sessionLength}`);
   // console.log(`Current seconds display:${secondsDisplay}`);
   // console.log(`Current minutes display:${minutesDisplay}`);
+  // console.log(`Current break length:${breakLength}`);
+  // console.log(`Current session length:${sessionLength}`);
+  // console.log(`Current running status:${isRunning}`);
 
   // Set display to mm:ss format
   // Set **:ss
@@ -77,9 +79,34 @@ function App() {
     // Stop countdown if it reaches 00:00
     if (minutes === 0 && seconds === 0) {
       console.log('Stopping countdown!');
+      setIsRunning(false);
       setSeconds(0);
       setMinutes(0);
-      setIsRunning(false);
+      if (currentLabel === "Session") {
+        console.log("Ending session...");
+        const breakTimer = setTimeout(() => {
+          console.log('Starting break after 1 second!');
+          setCurrentLabel("Break");
+          setBreakLength(breakLength); // Why does this have to be set before setMinutes?
+          setMinutes(breakLength);
+          setSeconds(59);
+        }, 1000);
+        setIsRunning(true);
+        return () => clearTimeout(breakTimer);
+      } else if (currentLabel === "Break") {
+        console.log("Ending break...");
+        const sessionTimer = setTimeout(() => {
+          console.log('Starting session after 1 second!');
+          setCurrentLabel("Session");
+          setSessionLength(sessionLength); // Why does this have to be set before setMinutes?
+          setMinutes(sessionLength);
+          setSeconds(59);
+        }, 1000);
+        setIsRunning(true);
+        return () => clearTimeout(sessionTimer);
+      } else {
+        console.log("Error in timers switch")
+      }
     }
 
     // Check if the app is set to run (isRunning === true)
@@ -95,14 +122,14 @@ function App() {
           console.log('This will run after 1 second!')
           setMinutes(minutes - 1);
           setSeconds(59);
-        }, 10);
+        }, 1000);
         return () => clearTimeout(timer);
       }
       // Execute the setInterval method to substract 1 to seconds every second
       const interval = setInterval(() => {
         console.log('This will run every second!');
         setSeconds(seconds => seconds - 1);
-      }, 10);
+      }, 1000);
       // Clear setInterval
       return () => clearInterval(interval);
     }
@@ -110,7 +137,8 @@ function App() {
     else {
       console.log('This will NOT run every second!');
     }
-  }, [isRunning, minutes, seconds]);
+    // Added breakLength, sessionLength, isBreak, isSession
+  }, [isRunning, minutes, seconds, breakLength, sessionLength, currentLabel]);
 
   const startStopTimer = () => {
     // Every 1000 milliseconds, set seconds to -1
@@ -118,7 +146,7 @@ function App() {
       console.log("Start countdown");
       setIsRunning(true);
       if (seconds === 0) {
-        console.log("#################")
+        console.log("#################");
         setSeconds(59);
         setMinutes(minutes - 1);
       }
@@ -127,6 +155,8 @@ function App() {
     else if (isRunning === true) {
       console.log("Pause countdown");
       setIsRunning(false);
+    } else {
+      console.log("Error in timer stop/start")
     }
   }
 
@@ -139,24 +169,17 @@ function App() {
     setMinutesDisplay("25");
     setBreakLength(5);
     setSessionLength(25);
+    setCurrentLabel("Session");
     setIsRunning(false);
-    console.log("$$$Current_Values$$$")
-    console.log(`Current seconds:${seconds}`);
-    console.log(`Current minutes:${minutes}`);
-    console.log(`Current seconds display:${secondsDisplay}`);
-    console.log(`Current minutes display:${minutesDisplay}`);
-    console.log(`Current break length:${breakLength}`);
-    console.log(`Current session length:${sessionLength}`);
-    console.log(`Current running status:${isRunning}`);
   }
 
   const decrementBreak = () => {
     console.log("Decrement break");
     if (breakLength === 1) {
-      console.log("Break has reached the minimum length (1)")
+      console.log("Break has reached the minimum length (1)");
       return;
     } else {
-      console.log(`Break length is ${breakLength}, substracting 1 from it...`)
+      console.log(`Break length is ${breakLength}, substracting 1 from it...`);
       setBreakLength(breakLength - 1);
     }
   }
@@ -164,10 +187,10 @@ function App() {
   const incrementBreak = () => {
     console.log("Increment break");
     if (breakLength >= 60) {
-      console.log("Break has reached the maximum length (60)")
+      console.log("Break has reached the maximum length (60)");
       return;
     } else {
-      console.log(`Break length is ${breakLength}, adding 1 to it...`)
+      console.log(`Break length is ${breakLength}, adding 1 to it...`);
       setBreakLength(breakLength + 1);
     }
   }
@@ -175,10 +198,10 @@ function App() {
   const decrementSession = () => {
     console.log("Decrement session");
     if (sessionLength === 1) {
-      console.log("Session has reached the minimum length (1)")
+      console.log("Session has reached the minimum length (1)");
       return;
     } else {
-      console.log(`Session length is ${sessionLength}, substracting 1 from it...`)
+      console.log(`Session length is ${sessionLength}, substracting 1 from it...`);
       setSessionLength(sessionLength - 1);
       setMinutes(sessionLength - 1);
     }
@@ -187,12 +210,12 @@ function App() {
   const incrementSession = () => {
     console.log("Increment session");
     if (sessionLength >= 60) {
-      console.log("Session has reached the maximum length (60)")
+      console.log("Session has reached the maximum length (60)");
       return;
     } else {
-      console.log(`Session length is ${sessionLength}, adding 1 to it...`)
+      console.log(`Session length is ${sessionLength}, adding 1 to it...`);
       setSessionLength(sessionLength + 1);
-      setMinutes(sessionLength + 1)
+      setMinutes(sessionLength + 1);
     }
   }
 
@@ -219,7 +242,7 @@ function App() {
         </div>
         {/* Timer display */}
         <div className="timer">
-          <div id="timer-label">Session</div>
+          <div id="timer-label">{ currentLabel }</div>
           <div id="time-left">
             {`${minutesDisplay}:${secondsDisplay}`}
           </div>
