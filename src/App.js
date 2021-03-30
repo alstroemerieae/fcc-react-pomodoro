@@ -2,6 +2,8 @@ import './App.css';
 import { useEffect, useState } from 'react';
 
 function App() {
+  let beepSound = document.getElementById('beep');
+
   const [seconds, setSeconds] = useState(0);
   const [minutes, setMinutes] = useState(25);
 
@@ -78,6 +80,7 @@ function App() {
 
     // Stop countdown if it reaches 00:00
     if (minutes === 0 && seconds === 0) {
+      beepSound.play();
       console.log('Stopping countdown!');
       setIsRunning(false);
       setSeconds(0);
@@ -138,7 +141,7 @@ function App() {
       console.log('This will NOT run every second!');
     }
     // Added breakLength, sessionLength, isBreak, isSession
-  }, [isRunning, minutes, seconds, breakLength, sessionLength, currentLabel]);
+  }, [isRunning, minutes, seconds, breakLength, sessionLength, currentLabel, beepSound]);
 
   const startStopTimer = () => {
     // Every 1000 milliseconds, set seconds to -1
@@ -170,6 +173,8 @@ function App() {
     setBreakLength(5);
     setSessionLength(25);
     setCurrentLabel("Session");
+    beepSound.pause();
+    beepSound.currentTime = 0;
     setIsRunning(false);
   }
 
@@ -249,6 +254,10 @@ function App() {
           <div className="timer-controls">
             <div id="start_stop" onClick={ startStopTimer }>Start/Stop</div>
             <div id="reset" onClick={ restartTimer }>Reset</div>
+          </div>
+          <div className="timer-audio">
+            {/* <audio id="beep" src="src/BeepSound.wav"></audio> */}
+            <audio id="beep" src="https://raw.githubusercontent.com/freeCodeCamp/cdn/master/build/testable-projects-fcc/audio/BeepSound.wav"></audio>
           </div>
         </div>
       </div>
