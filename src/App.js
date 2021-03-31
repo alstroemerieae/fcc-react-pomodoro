@@ -40,94 +40,105 @@ function App() {
       setMinutesDisplay(minutes.toString());
     }
 
-    // Stop countdown if it reaches 00:00
+
+    // This function will switch the timers (Session/Break) and play a sound when the countdown reaches 00:00
     if (minutes === 0 && seconds === 0) {
       beepSound.play();
       console.log('Stopping countdown!');
       setIsRunning(false);
       setSeconds(0);
       setMinutes(0);
+      // If the current timer is Session, start Break timer after 1000ms
       if (currentLabel === "Session") {
         console.log("Ending session...");
         const breakTimer = setTimeout(() => {
           console.log('Starting break after 1 second!');
           setCurrentLabel("Break");
-          setBreakLength(breakLength); // Why does this have to be set before setMinutes?
+          setBreakLength(breakLength);
           setMinutes(breakLength);
           setSeconds(59);
         }, 1000);
         setIsRunning(true);
         return () => clearTimeout(breakTimer);
-      } else if (currentLabel === "Break") {
+      }
+      // If the current timer is Break, start Session timer after 1000ms
+      else if (currentLabel === "Break") {
         console.log("Ending break...");
         const sessionTimer = setTimeout(() => {
           console.log('Starting session after 1 second!');
           setCurrentLabel("Session");
-          setSessionLength(sessionLength); // Why does this have to be set before setMinutes?
+          setSessionLength(sessionLength);
           setMinutes(sessionLength);
           setSeconds(59);
         }, 1000);
         setIsRunning(true);
         return () => clearTimeout(sessionTimer);
-      } else {
+      }
+      // Check for errors when switching timers
+      else {
         console.log("Error in timers switch")
       }
     }
 
-    // Check if the app is set to run (isRunning === true)
+
+    // This function will set the minutes and seconds of the timer
     if (isRunning === true) {
-      // Set seconds to (59) and minutes to (minutes-1) if seconds are equal to (0)
+      // Set seconds to 59 and minutes to (minutes-1)
       if (seconds === 0) {
-        // Run this after 1 seconds
+        // Run this after 1000ms
         // This will prevent a display bug like this:
         // 24:00 (1s)=> 23:00 (1s)=> 23:59
         // And will display this instead:
         // 24:00 (1s)=> 23:59
-        const timer = setTimeout(() => {
+        const setMinutesAndSeconds = setTimeout(() => {
           console.log('This will run after 1 second!')
           setMinutes(minutes - 1);
           setSeconds(59);
         }, 1000);
-        return () => clearTimeout(timer);
+        // Clear setTimeout
+        return () => clearTimeout(setMinutesAndSeconds);
       }
-      // Execute the setInterval method to substract 1 to seconds every second
-      const interval = setInterval(() => {
+      // Subtract 1 to seconds every 1000ms
+      const subtractSecond = setInterval(() => {
         console.log('This will run every second!');
         setSeconds(seconds => seconds - 1);
       }, 1000);
       // Clear setInterval
-      return () => clearInterval(interval);
+      return () => clearInterval(subtractSecond);
     }
     // Check if the app is set to not run (isRunning === false)
     else {
       console.log('This will NOT run every second!');
     }
-    // Added breakLength, sessionLength, isBreak, isSession
   }, [isRunning, minutes, seconds, breakLength, sessionLength, currentLabel, beepSound]);
 
+
+  // This function will start/stop the timer
   const startStopTimer = () => {
-    // Every 1000 milliseconds, set seconds to -1
+    // Start timer
     if (isRunning === false) {
-      console.log("Start countdown");
+      console.log("Starting countdown");
       setIsRunning(true);
       if (seconds === 0) {
-        console.log("#################");
         setSeconds(59);
         setMinutes(minutes - 1);
       }
     }
     // Stop timer
     else if (isRunning === true) {
-      console.log("Pause countdown");
+      console.log("Pausing countdown");
       setIsRunning(false);
-    } else {
-      console.log("Error in timer stop/start")
+    }
+    // Check for errors
+    else {
+      console.log("Error in timer start/stop")
     }
   }
 
+
+  // This function will restart every variable of the pomodoro clock
   const restartTimer = () => {
-    console.log("Restart countdown");
-    // Might have to fix the next two lines later
+    console.log("Restarting countdown");
     setSeconds(0);
     setMinutes(25);
     setSecondsDisplay("00");
@@ -140,17 +151,20 @@ function App() {
     setIsRunning(false);
   }
 
+
+  // This function will decrease the break value by 1
   const decrementBreak = () => {
     console.log("Decrement break");
     if (breakLength === 1) {
       console.log("Break has reached the minimum length (1)");
       return;
     } else {
-      console.log(`Break length is ${breakLength}, substracting 1 from it...`);
+      console.log(`Break length is ${breakLength}, subtracting 1 from it...`);
       setBreakLength(breakLength - 1);
     }
   }
 
+  // This function will increase the break value by 1
   const incrementBreak = () => {
     console.log("Increment break");
     if (breakLength >= 60) {
@@ -162,18 +176,20 @@ function App() {
     }
   }
 
+  // This function will decrease the session value by 1
   const decrementSession = () => {
     console.log("Decrement session");
     if (sessionLength === 1) {
       console.log("Session has reached the minimum length (1)");
       return;
     } else {
-      console.log(`Session length is ${sessionLength}, substracting 1 from it...`);
+      console.log(`Session length is ${sessionLength}, subtracting 1 from it...`);
       setSessionLength(sessionLength - 1);
       setMinutes(sessionLength - 1);
     }
   }
 
+  // This function will increase the session value by 1
   const incrementSession = () => {
     console.log("Increment session");
     if (sessionLength >= 60) {
@@ -209,16 +225,17 @@ function App() {
         </div>
         {/* Timer display */}
         <div className="timer">
+          {/* Timer label */}
           <div id="timer-label">{ currentLabel }</div>
-          <div id="time-left">
-            {`${minutesDisplay}:${secondsDisplay}`}
-          </div>
+          {/* Timer time left */}
+          <div id="time-left">{`${minutesDisplay}:${secondsDisplay}`}</div>
+          {/* Timer controls */}
           <div className="timer-controls">
             <div id="start_stop" onClick={ startStopTimer }>Start/Stop</div>
             <div id="reset" onClick={ restartTimer }>Reset</div>
           </div>
+          {/* Timer soundfile */}
           <div className="timer-audio">
-            {/* <audio id="beep" src="src/BeepSound.wav"></audio> */}
             <audio id="beep" src="https://raw.githubusercontent.com/freeCodeCamp/cdn/master/build/testable-projects-fcc/audio/BeepSound.wav"></audio>
           </div>
         </div>
