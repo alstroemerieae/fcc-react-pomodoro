@@ -25,58 +25,20 @@ function App() {
   // console.log(`Current session length:${sessionLength}`);
   // console.log(`Current running status:${isRunning}`);
 
-  // Set display to mm:ss format
-  // Set **:ss
-  if(secondsDisplay === "0") {
-    console.log("Adding a 0 to the seconds string")
-    setSecondsDisplay("00");
-  } else if (secondsDisplay === "1") {
-    setSecondsDisplay("01");
-  } else if (secondsDisplay === "2") {
-    setSecondsDisplay("02");
-  } else if (secondsDisplay === "3") {
-    setSecondsDisplay("03");
-  } else if (secondsDisplay === "4") {
-    setSecondsDisplay("04");
-  } else if (secondsDisplay === "5") {
-    setSecondsDisplay("05");
-  } else if (secondsDisplay === "6") {
-    setSecondsDisplay("06");
-  } else if (secondsDisplay === "7") {
-    setSecondsDisplay("07");
-  } else if (secondsDisplay === "8") {
-    setSecondsDisplay("08");
-  } else if (secondsDisplay === "9") {
-    setSecondsDisplay("09");
-  }
-  // Set mm:**
-  if(minutesDisplay === "0") {
-    console.log("Adding a 0 to the minutes string")
-    setMinutesDisplay("00");
-  } else if (minutesDisplay === "1") {
-    setMinutesDisplay("01");
-  } else if (minutesDisplay === "2") {
-    setMinutesDisplay("02");
-  } else if (minutesDisplay === "3") {
-    setMinutesDisplay("03");
-  } else if (minutesDisplay === "4") {
-    setMinutesDisplay("04");
-  } else if (minutesDisplay === "5") {
-    setMinutesDisplay("05");
-  } else if (minutesDisplay === "6") {
-    setMinutesDisplay("06");
-  } else if (minutesDisplay === "7") {
-    setMinutesDisplay("07");
-  } else if (minutesDisplay === "8") {
-    setMinutesDisplay("08");
-  } else if (minutesDisplay === "9") {
-    setMinutesDisplay("09");
-  }
-
   useEffect(() => {
-    // Set the minutes and seconds to string
-    setSecondsDisplay(seconds.toString());
-    setMinutesDisplay(minutes.toString());
+    // This will set the current seconds/minutes to display as mm:ss format
+    // Pass the current second/minute as a string and prepend a 0 if the current second/minute ranges from 0 to 9
+    // Otherwise, just pass the current second as a string
+    if (seconds <= 9){
+      setSecondsDisplay("0" + seconds.toString())
+    } else {
+      setSecondsDisplay(seconds.toString());
+    }
+    if (minutes <= 9){
+      setMinutesDisplay("0" + minutes.toString())
+    } else {
+      setMinutesDisplay(minutes.toString());
+    }
 
     // Stop countdown if it reaches 00:00
     if (minutes === 0 && seconds === 0) {
