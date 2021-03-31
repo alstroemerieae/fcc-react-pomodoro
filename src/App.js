@@ -204,39 +204,46 @@ function App() {
 
   return (
     <div className="container">
-      <div className="pomodoro">
-        {/* Break control */}
-        <div className="length-control">
-          <div id="break-label">Break Length</div>
-          <div className="break-controls">
-            <div id="break-decrement" onClick={ decrementBreak }>-</div>
-            <div id="break-length">{ breakLength }</div>
-            <div id="break-increment" onClick={ incrementBreak }>+</div>
-          </div>
+      <div className="pomodoro-body">
+        {/* Timer display */}
+        <div className="timer-display">
+          <div id="timer-label">{ currentLabel }</div>
+          <div id="time-left">{`${minutesDisplay}:${secondsDisplay}`}</div>
         </div>
-        {/* Session control */}
+        {/* Timer controls */}
+        <div className="timer-controls">
+          <div id="start_stop" className="button" onClick={ startStopTimer }>
+            {isRunning ? <i className="fas fa-stop"></i> : <i className="fas fa-play"></i>}
+          </div>
+          <div id="reset" className="button" onClick={ restartTimer }>
+            <i className="fas fa-undo"></i>
+          </div>
+          <audio id="beep" src="https://raw.githubusercontent.com/freeCodeCamp/cdn/master/build/testable-projects-fcc/audio/BeepSound.wav"></audio>
+        </div>
+        {/* Session controls */}
         <div className="length-control">
           <div id="session-label">Session Length</div>
-          <div className="session-controls">
-            <div id="session-decrement" onClick={ decrementSession }>-</div>
+          <div className="control-group-buttons">
+            <div id="session-decrement" className="button" onClick={ decrementSession }>
+              <i className="fas fa-minus"></i>
+            </div>
             <div id="session-length">{ sessionLength }</div>
-            <div id="session-increment" onClick={ incrementSession }>+</div>
+            <div id="session-increment" className="button" onClick={ incrementSession }>
+              <i className="fas fa-plus"></i>
+            </div>
           </div>
         </div>
-        {/* Timer display */}
-        <div className="timer">
-          {/* Timer label */}
-          <div id="timer-label">{ currentLabel }</div>
-          {/* Timer time left */}
-          <div id="time-left">{`${minutesDisplay}:${secondsDisplay}`}</div>
-          {/* Timer controls */}
-          <div className="timer-controls">
-            <div id="start_stop" onClick={ startStopTimer }>Start/Stop</div>
-            <div id="reset" onClick={ restartTimer }>Reset</div>
-          </div>
-          {/* Timer soundfile */}
-          <div className="timer-audio">
-            <audio id="beep" src="https://raw.githubusercontent.com/freeCodeCamp/cdn/master/build/testable-projects-fcc/audio/BeepSound.wav"></audio>
+        {/* Break controls */}
+        <div className="length-control">
+          <div id="break-label">Break Length</div>
+          <div className="control-group-buttons">
+            <div id="break-decrement" className="button" onClick={ decrementBreak }>
+              <i className="fas fa-minus"></i>
+            </div>
+            <div id="break-length">{ breakLength }</div>
+            <div id="break-increment" className="button" onClick={ incrementBreak }>
+              <i className="fas fa-plus"></i>
+            </div>
           </div>
         </div>
       </div>
